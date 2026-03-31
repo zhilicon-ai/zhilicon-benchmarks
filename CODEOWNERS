@@ -1,0 +1,16 @@
+# CODEOWNERS — zhilicon-benchmarks (Class D: Public)
+
+# Default: SDK and ML Systems teams own benchmark methodology
+*                           @zhilicon-ai/sdk @zhilicon-ai/ml-systems
+
+# Benchmark scripts: ML Systems primary
+/benchmarks/                @zhilicon-ai/ml-systems @zhilicon-ai/sdk
+
+# Published results: Program Management co-reviews (controls official claims)
+/results/                   @zhilicon-ai/ml-systems @zhilicon-ai/program-management
+
+# Methodology docs: Docs team co-reviews
+/docs/                      @zhilicon-ai/ml-systems @zhilicon-ai/docs
+
+# Harness tooling: SDK team primary
+/tools/                     @zhilicon-ai/sdk
