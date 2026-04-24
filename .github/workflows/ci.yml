@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Repository validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Required files present
+        run: |
+          set -e
+          missing=()
+          for f in README.md LICENSE CHANGELOG.md VERSION; do
+            if [ ! -f "$f" ]; then missing+=("$f"); fi
+          done
+          if [ ${#missing[@]} -gt 0 ]; then
+            echo "::error::missing required files: ${missing[*]}"
+            exit 1
+          fi
+          echo "✓ all required files present"
+
+      - name: Markdown lint (non-blocking)
+        uses: DavidAnson/markdownlint-cli2-action@v18
+        continue-on-error: true
+        with:
+          globs: "**/*.md"
+
+      - name: Link check (non-blocking)
+        uses: lycheeverse/lychee-action@v2
+        continue-on-error: true
+        with:
+          args: --no-progress --accept 200,204,206,301,302,403 "**/*.md"
+          fail: false
+
+      - name: Summary
+        run: echo "::notice::repository validation passed"
