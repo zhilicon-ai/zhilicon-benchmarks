@@ -1,6 +1,7 @@
 # zhilicon-benchmarks
 
 [![CI](https://github.com/zhilicon-ai/zhilicon-benchmarks/actions/workflows/ci.yml/badge.svg)](https://github.com/zhilicon-ai/zhilicon-benchmarks/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/zhilicon-ai/zhilicon-benchmarks?include_prereleases&label=release)](https://github.com/zhilicon-ai/zhilicon-benchmarks/releases)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Methodology](https://img.shields.io/badge/methodology-v1.0-brightgreen)](docs/METHODOLOGY.md)
 
