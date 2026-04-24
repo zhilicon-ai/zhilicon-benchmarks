@@ -1,35 +1,54 @@
-# zhilicon-benchmarks
+<div align="center">
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/zhilicon-ai/.github/main/profile/assets/zhilicon-logo-dark.png" width="320">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/zhilicon-ai/.github/main/profile/assets/zhilicon-logo-light.png" width="320">
+  <img alt="Zhilicon" src="https://raw.githubusercontent.com/zhilicon-ai/.github/main/profile/assets/zhilicon-logo-light.png" width="320">
+</picture>
+
+# Zhilicon Benchmarks
+
+### Reproducible performance benchmark suite for the Zhilicon five-chip portfolio. Activates at first-silicon bring-up (Sentinel-1 Q4 2026).
 
 [![CI](https://github.com/zhilicon-ai/zhilicon-benchmarks/actions/workflows/ci.yml/badge.svg)](https://github.com/zhilicon-ai/zhilicon-benchmarks/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/zhilicon-ai/zhilicon-benchmarks?include_prereleases&label=release)](https://github.com/zhilicon-ai/zhilicon-benchmarks/releases)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-[![Methodology](https://img.shields.io/badge/methodology-v1.0-brightgreen)](docs/METHODOLOGY.md)
+[![Release](https://img.shields.io/github/v/release/zhilicon-ai/zhilicon-benchmarks?include_prereleases&sort=semver&color=0d1117&label=release)](https://github.com/zhilicon-ai/zhilicon-benchmarks/releases/latest)
+[![Last Commit](https://img.shields.io/github/last-commit/zhilicon-ai/zhilicon-benchmarks?color=0d1117&label=last%20commit)](https://github.com/zhilicon-ai/zhilicon-benchmarks/commits/main)
+[![Portfolio](https://img.shields.io/badge/Zhilicon-v0.2.0-0d1117)](https://github.com/zhilicon-ai)
 
-> Official benchmark suite, methodology, and published performance results for the Zhilicon ZHI-1 AI chip. Reproducible measurements. Transparent methodology. No cherry-picking.
+[![Methodology](https://img.shields.io/badge/methodology-v1.0-0d1117)](docs/METHODOLOGY.md)
+[![Status](https://img.shields.io/badge/status-pre_silicon-yellow)](https://github.com/zhilicon-ai/zhilicon-benchmarks)
+
+</div>
+
+---
+
+<p align="center">
+  <a href="https://github.com/zhilicon-ai"><strong>Portfolio</strong></a>&nbsp;·&nbsp;
+  <a href="https://github.com/zhilicon-ai/zhilicon-sdk"><strong>SDK</strong></a>&nbsp;·&nbsp;
+  <a href="https://github.com/zhilicon-ai/zhilicon-sdk-examples"><strong>Examples</strong></a>&nbsp;·&nbsp;
+  <a href="https://github.com/zhilicon-ai/zhilicon-developer-docs"><strong>Developer Docs</strong></a>&nbsp;·&nbsp;
+  <a href="https://github.com/zhilicon-ai/zhilicon-benchmarks/releases"><strong>Releases</strong></a>
+</p>
 
 ---
 
 ## Why This Repository
 
-Performance benchmarks for AI accelerators are frequently misleading: peak vs. sustained throughput, wall-clock vs. chip-only power, batch-1 vs. optimal-batch latency. This repository exists to provide a single, reproducible source of truth for ZHI-1 performance — with the full methodology published so you can verify every number yourself.
+Performance benchmarks for AI accelerators are frequently misleading: peak vs. sustained throughput, wall-clock vs. chip-only power, batch-1 vs. optimal-batch latency. This repository exists to provide a single, reproducible source of truth for Zhilicon portfolio performance — with the full methodology published so you can verify every number yourself.
 
 ---
 
 ## Results at a Glance
 
-> Results from ZHI-1 B0 silicon. Full configuration in [`results/B0/hardware-config.json`](results/B0/).
+> **Pre-silicon status.** This repository activates at first-silicon bring-up.
+> Sentinel-1 is scheduled Q4 2026; Discovery-1 and Prometheus Q3 2026; Nexus-1 Rev A Q4 2026;
+> Horizon-1 Q1 2027. Once silicon arrives, this section will publish measured results with
+> full reproducibility methodology for every number.
+>
+> Until then, the repository ships the **methodology framework** (see [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md))
+> so that when silicon arrives, the first published result follows the same measurement
+> contract every subsequent result will.
 
-| Model | Task | Precision | Throughput | Latency (P99) | Power | TOPS/W |
-|-------|------|-----------|-----------|--------------|-------|--------|
-| ResNet-50 | Image classification | INT8 | 18,400 img/s | 2.1ms | 120W | — |
-| LLaMA-3-8B | LLM decode | FP16 | 3,200 tok/s | 0.8ms/tok | 180W | — |
-| LLaMA-3-70B | LLM decode (4-chip) | FP16 | 890 tok/s | 2.1ms/tok | 640W | — |
-| BERT-large | Encoding | FP16 | 12,000 seq/s | 3.4ms | 165W | — |
-| YOLOv8-L | Object detection | INT8 | 4,200 img/s | 1.2ms | 135W | — |
-
-*All numbers at steady state, wall-clock power, end-to-end (host to host). See [methodology](docs/METHODOLOGY.md) for full measurement protocol.*
-
----
 
 ## Quick Start — Reproduce a Result
 
@@ -69,7 +88,7 @@ zhilicon-benchmarks/
 │   ├── model-zoo/             # End-to-end accuracy + performance (20+ models)
 │   └── multi-chip-scaling/    # Throughput scaling: 1×, 2×, 4×, 8× chips
 ├── results/
-│   ├── B0/                    # ZHI-1 B0 silicon results (dated subdirectories)
+│   ├── B0/                    # Zhilicon silicon (pre-tape-out) results (dated subdirectories)
 │   └── simulator/             # Functional simulator results (not performance)
 ├── models/
 │   └── configs/               # Model configurations and graph specs
@@ -111,7 +130,7 @@ Runs 20+ standard ML models end-to-end. Reports: throughput, latency, accuracy (
 
 ### multi-chip-scaling
 
-Measures throughput scaling efficiency with 1, 2, 4, and 8 ZHI-1 chips. Reports scaling efficiency (ideal = N× linear).
+Measures throughput scaling efficiency with 1, 2, 4, and 8 Zhilicon portfolio chips. Reports scaling efficiency (ideal = N× linear).
 
 ---
 
