@@ -31,12 +31,14 @@ struct TestContext {
 
   void record_failure(const char* file, int line, const std::string& msg) {
     ++failures;
-    char buf[64];
-    std::snprintf(buf, sizeof(buf), "%s:%d", file, line);
     failure_log += "  [FAIL] ";
     failure_log += current_test;
     failure_log += " @ ";
-    failure_log += buf;
+    failure_log += file;
+    failure_log += ':';
+    // Append the line number without using a fixed-size buffer so the
+    // format-truncation warning doesn't trigger for long source paths.
+    failure_log += std::to_string(line);
     failure_log += " : ";
     failure_log += msg;
     failure_log += '\n';
@@ -116,7 +118,7 @@ inline int run_all(const char* suite_name) {
     double _zh_b = static_cast<double>(b);                                   \
     double _zh_t = static_cast<double>(tol);                                 \
     if (!(std::fabs(_zh_a - _zh_b) <= _zh_t)) {                              \
-      char _zh_buf[128];                                                     \
+      char _zh_buf[256];                                                     \
       std::snprintf(_zh_buf, sizeof(_zh_buf),                                \
                     "%s (%.10g) and %s (%.10g) differ by %.10g > %.10g",     \
                     #a, _zh_a, #b, _zh_b, std::fabs(_zh_a - _zh_b), _zh_t);  \
