@@ -59,6 +59,19 @@ Thumbs.db
 *.swp
 *.swo
 
+# C++ build artefacts (CMake / ctest)
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+CTestTestfile.cmake
+cmake_install.cmake
+Makefile
+*.o
+*.obj
+*.a
+*.dylib
+compile_commands.json
+
 # Credentials — never commit these
 *.pem
 *.key

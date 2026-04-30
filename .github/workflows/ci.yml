@@ -46,3 +46,27 @@ jobs:
 
       - name: Summary
         run: echo "::notice::repository validation passed"
+
+  cpp-kernels:
+    name: C++ kernel library (build + test)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: |
+          set -e
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends cmake ninja-build g++
+
+      - name: Configure
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build -j
+
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
+
+      - name: Summary
+        run: echo "::notice::C++ kernel library build and tests passed"
