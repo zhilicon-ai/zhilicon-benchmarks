@@ -1,0 +1,42 @@
+name: Release
+'on':
+  push:
+    tags:
+    - v*.*.*
+jobs:
+  package-benchmarks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+        cache: pip
+    - name: Install build tools
+      run: pip install build twine
+    - name: Build sdist+wheel
+      run: python -m build --sdist --wheel || true
+    - name: Snapshot benchmark suite
+      run: 'tar czf benchmarks-${{ github.ref_name }}.tar.gz chip_ops/ tests/ || true
+
+        '
+    - name: Generate changelog
+      run: 'echo ''## Release ${{ github.ref_name }}'' > CHANGELOG.tmp.md
+
+        git log $(git describe --tags --abbrev=0 HEAD^)..HEAD --pretty=format:''- %s (%h)'' >> CHANGELOG.tmp.md || true
+
+        '
+    - name: Create GitHub release
+      uses: softprops/action-gh-release@v1
+      with:
+        body_path: CHANGELOG.tmp.md
+        files: 'benchmarks-${{ github.ref_name }}.tar.gz
+
+          dist/*
+
+          '
+        draft: false
+        prerelease: false
