@@ -1,0 +1,61 @@
+name: Baseline Update
+'on':
+  workflow_dispatch:
+    inputs:
+      chip:
+        description: Chip to update baselines for
+        required: true
+        type: choice
+        options:
+        - sentinel-1
+        - horizon-1
+        - discovery-1
+        - nexus-1
+        - prometheus
+        - all
+      reason:
+        description: Why baselines are being updated
+        required: true
+        type: string
+jobs:
+  update-baselines:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+        cache: pip
+    - name: Install
+      run: 'pip install --upgrade pip
+
+        pip install pytest pytest-benchmark numpy
+
+        pip install -e . || true
+
+        '
+    - name: Regenerate baselines for ${{ inputs.chip }}
+      run: 'python -m pytest tests/regression/ ${{ inputs.chip != ''all'' && format(''-k {0}'', inputs.chip) || '''' }} --benchmark-save=baseline-${{
+        inputs.chip }} || true
+
+        echo ''Baselines updated for ${{ inputs.chip }}: ${{ inputs.reason }}''
+
+        '
+    - name: Open PR with new baselines
+      uses: peter-evans/create-pull-request@v6
+      with:
+        branch: baseline/update-${{ inputs.chip }}-${{ github.run_id }}
+        title: 'baseline: refresh ${{ inputs.chip }} baselines'
+        body: 'Auto-generated baseline refresh.
+
+
+          Reason: ${{ inputs.reason }}
+
+          '
+        commit-message: 'baseline(${{ inputs.chip }}): refresh -- ${{ inputs.reason }}
+
+          '
