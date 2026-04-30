@@ -29,7 +29,19 @@ for the full release process.
 
 ### Added
 
-- Placeholder — release-drafter will populate this section from merged PRs.
+- C++17 portable kernel library under `benchmarks/kernels/` covering DSP
+  (FIR, biquad IIR, radix-2 FFT, window functions), linear algebra
+  (blocked matmul, cache-friendly transpose, Householder QR), quantization
+  (symmetric/asymmetric quantize, int8 GEMM with int32 accumulator,
+  fused dequant-matmul), reductions (pairwise/Kahan summation, Welford
+  variance, argmax/topk with stable tie-breaking), convolution (NCHW
+  conv2d, im2col/col2im) and shared utilities (aligned RAII buffer,
+  bit primitives, software fp16, deterministic xoshiro PRNG).
+- CMake build wiring under `CMakeLists.txt` plus a `cpp-kernels` CI job
+  that builds with `-Wall -Wextra -Werror -Wpedantic -Wshadow
+  -Wconversion -Wdouble-promotion` and runs the test suite via ctest.
+- Lightweight in-tree test harness (`benchmarks/kernels/tests/test_framework.hpp`)
+  with 221 tests / 14,978 assertions across 19 test binaries.
 
 ---
 
