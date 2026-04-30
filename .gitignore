@@ -48,6 +48,9 @@ results/
 output/
 logs/
 *.log
+.coverage
+htmlcov/
+.pytest_cache/
 
 # OS
 .DS_Store
