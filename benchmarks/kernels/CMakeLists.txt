@@ -33,10 +33,14 @@ set(ZH_KERNEL_WARNINGS
   -Wconversion
   -Wsign-conversion
   -Wnon-virtual-dtor
-  -Wnull-dereference
   -Wdouble-promotion
   -Wformat=2
   -Wno-unused-parameter)
+# -Wnull-dereference is intentionally not enabled: GCC reports false
+# positives whenever a vector::operator[] or AlignedBuffer::operator[]
+# is dereferenced after a member function chain, even when the analysis
+# cannot prove the data pointer was the relevant null candidate. Clang
+# does not warn on the same code. Re-enable once the GCC analysis tightens.
 
 enable_testing()
 
